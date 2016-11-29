@@ -20,6 +20,7 @@ var errNotOnline = errors.New("This command must be run in online mode. Try runn
 
 type UploadResult struct {
 	Record string
+	PubKey string
 }
 
 var UploadNameCmd = &cmds.Command{
@@ -30,12 +31,31 @@ var UploadNameCmd = &cmds.Command{
 	Arguments: []cmds.Argument{
 		cmds.StringArg("ipns-rec", true, false, "binary IPNS record").EnableStdin(),
 	},
-	Options: []cmds.Option{},
+	Options: []cmds.Option{
+		cmds.StringOption("key", "Public key of the author who signed the IPNS record"),
+	},
 
 	Run: func(req cmds.Request, res cmds.Response) {
 		log.Debug("begin name upload")
-		rec := req.Arguments()[0]
-		res.SetOutput(&UploadResult{ Record: rec })
+		if len(req.Arguments()) != 1 {
+			res.SetError(errors.New("Must provide the IPNS record as the single argument"), cmds.ErrNormal)
+			return
+		}
+
+		record := req.Arguments()[0]
+
+		//ctx := req.Context()
+		pubkey, found, err := req.Option("key").String()
+		if err != nil {
+			res.SetError(err, cmds.ErrNormal)
+			return
+		}
+		if !found {
+			res.SetError(errors.New("Must provide a public key as the --key option"), cmds.ErrNormal)
+			return
+		}
+
+		res.SetOutput(&UploadResult{ Record: record, PubKey: pubkey })
 	},
 	Marshalers: cmds.MarshalerMap{
 		cmds.Text: func(res cmds.Response) (io.Reader, error) {
