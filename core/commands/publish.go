@@ -18,6 +18,34 @@ import (
 
 var errNotOnline = errors.New("This command must be run in online mode. Try running 'ipfs daemon' first.")
 
+type UploadResult struct {
+	Record string
+}
+
+var UploadNameCmd = &cmds.Command{
+	Helptext: cmds.HelpText{
+		Tagline: "Upload a signed IPNS record to an IPFS node",
+	},
+
+	Arguments: []cmds.Argument{
+		cmds.StringArg("ipns-rec", true, false, "binary IPNS record").EnableStdin(),
+	},
+	Options: []cmds.Option{},
+
+	Run: func(req cmds.Request, res cmds.Response) {
+		log.Debug("begin name upload")
+		rec := req.Arguments()[0]
+		res.SetOutput(&UploadResult{ Record: rec })
+	},
+	Marshalers: cmds.MarshalerMap{
+		cmds.Text: func(res cmds.Response) (io.Reader, error) {
+			o := res.Output().(*UploadResult)
+			return strings.NewReader(o.Record), nil
+		},
+	},
+	Type: UploadResult{},
+}
+
 var PublishCmd = &cmds.Command{
 	Helptext: cmds.HelpText{
 		Tagline: "Publish an object to IPNS.",
@@ -36,11 +64,6 @@ Examples:
 Publish an <ipfs-path> to your identity name:
 
   > ipfs name publish /ipfs/QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy
-  Published to QmbCMUZw6JFeZ7Wp9jkzbye3Fzp2GGcPgC3nmeUjfVF87n: /ipfs/QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy
-
-Publish an <ipfs-path> to another public key (not implemented):
-
-  > ipfs name publish /ipfs/QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy QmbCMUZw6JFeZ7Wp9jkzbye3Fzp2GGcPgC3nmeUjfVF87n
   Published to QmbCMUZw6JFeZ7Wp9jkzbye3Fzp2GGcPgC3nmeUjfVF87n: /ipfs/QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy
 
 `,
