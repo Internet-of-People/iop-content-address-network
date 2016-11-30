@@ -22,7 +22,7 @@ import (
 //
 type mpns struct {
 	resolvers  map[string]resolver
-	publishers map[string]Publisher
+	publishers map[string]RePublisher
 }
 
 // NewNameSystem will construct the IPFS naming system based on Routing
@@ -33,7 +33,7 @@ func NewNameSystem(r routing.ValueStore, ds ds.Datastore, cachesize int) NameSys
 			"proquint": new(ProquintResolver),
 			"dht":      NewRoutingResolver(r, cachesize),
 		},
-		publishers: map[string]Publisher{
+		publishers: map[string]RePublisher{
 			"/ipns/": NewRoutingPublisher(r, ds),
 		},
 	}
@@ -92,4 +92,8 @@ func (ns *mpns) Publish(ctx context.Context, name ci.PrivKey, value path.Path) e
 
 func (ns *mpns) PublishWithEOL(ctx context.Context, name ci.PrivKey, val path.Path, eol time.Time) error {
 	return ns.publishers["/ipns/"].PublishWithEOL(ctx, name, val, eol)
+}
+
+func (ns *mpns) RePublish(ctx context.Context, name ci.PrivKey, eol time.Time) error {
+	return ns.publishers["/ipns/"].RePublish(ctx, name, eol)
 }

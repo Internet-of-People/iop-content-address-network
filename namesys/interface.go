@@ -68,7 +68,7 @@ var ErrPublishFailed = errors.New("Could not publish name.")
 // key (name).
 type NameSystem interface {
 	Resolver
-	Publisher
+	RePublisher
 }
 
 // Resolver is an object capable of resolving names.
@@ -110,4 +110,9 @@ type Publisher interface {
 	// TODO: to be replaced by a more generic 'PublishWithValidity' type
 	// call once the records spec is implemented
 	PublishWithEOL(ctx context.Context, name ci.PrivKey, value path.Path, eol time.Time) error
+}
+
+type RePublisher interface {
+	Publisher
+	RePublish(ctx context.Context, sk ci.PrivKey, eol time.Time) error
 }

@@ -48,7 +48,7 @@ Resolve the value of a reference:
 
 	Subcommands: map[string]*cmds.Command{
 		"publish": PublishCmd,
-		"upload": UploadNameCmd,
+		"upload":  UploadNameCmd,
 		"resolve": IpnsCmd,
 	},
 }

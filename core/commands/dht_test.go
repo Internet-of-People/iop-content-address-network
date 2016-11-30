@@ -5,11 +5,13 @@ import (
 
 	"github.com/ipfs/go-ipfs/namesys"
 	tu "github.com/ipfs/go-ipfs/thirdparty/testutil"
+	routing "gx/ipfs/QmUrCwTDvJgmBbJVHu1HGEyqDaod3dR6sEkZkpxZk4u47c/go-libp2p-routing"
 )
 
 func TestKeyTranslation(t *testing.T) {
 	pid := tu.RandPeerIDFatal(t)
-	a, b := namesys.IpnsKeysForID(pid)
+	a := routing.KeyForPublicKey(pid)
+	b := namesys.IpnsKeyForID(pid)
 
 	pkk, err := escapeDhtKey("/pk/" + pid.Pretty())
 	if err != nil {

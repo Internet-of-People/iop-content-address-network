@@ -45,6 +45,10 @@ func (m mockNamesys) PublishWithEOL(ctx context.Context, name ci.PrivKey, value 
 	return errors.New("not implemented for mockNamesys")
 }
 
+func (m mockNamesys) RePublish(ctx context.Context, name ci.PrivKey, _ time.Time) error {
+	return errors.New("not implemented for mockNamesys")
+}
+
 func newNodeWithMockNamesys(ns mockNamesys) (*core.IpfsNode, error) {
 	c := config.Config{
 		Identity: config.Identity{

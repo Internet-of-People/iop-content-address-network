@@ -55,7 +55,7 @@ var UploadNameCmd = &cmds.Command{
 			return
 		}
 
-		res.SetOutput(&UploadResult{ Record: record, PubKey: pubkey })
+		res.SetOutput(&UploadResult{Record: record, PubKey: pubkey})
 	},
 	Marshalers: cmds.MarshalerMap{
 		cmds.Text: func(res cmds.Response) (io.Reader, error) {
