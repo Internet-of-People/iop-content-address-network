@@ -1,14 +1,18 @@
 package dshelp
 
 import (
-	base32 "gx/ipfs/Qmb1DA2A9LS2wR4FFweB4uEDomFsdmnw1VLawLE1yQzudj/base32"
-	ds "gx/ipfs/QmbzuUusHqaLLoNTDEVLcSF6vZDHZDLPC7p4bztRvvkXxU/go-datastore"
-	cid "gx/ipfs/QmcEcrBAMrwMyhSjXt4yfyPpzgSuV8HLHavnfmiKCSRqZU/go-cid"
+	ds "gx/ipfs/QmRWDav6mzWseLWeYfVd5fvUKiVe9xNH29YfMF438fG364/go-datastore"
+	base32 "gx/ipfs/QmZvZSVtvxak4dcTkhsQhqd1SQ6rg5UzaSTu62WfWKjj93/base32"
+	cid "gx/ipfs/QmcTcsTvfaeEBRFo1TkFgT8sRmgi1n1LTZpecfVP8fzpGD/go-cid"
 )
 
 // TODO: put this code into the go-datastore itself
-func NewKeyFromBinary(s string) ds.Key {
-	return ds.NewKey(base32.RawStdEncoding.EncodeToString([]byte(s)))
+
+func NewKeyFromBinary(rawKey []byte) ds.Key {
+	buf := make([]byte, 1+base32.RawStdEncoding.EncodedLen(len(rawKey)))
+	buf[0] = '/'
+	base32.RawStdEncoding.Encode(buf[1:], rawKey)
+	return ds.RawKey(string(buf))
 }
 
 func BinaryFromDsKey(k ds.Key) ([]byte, error) {
@@ -16,19 +20,11 @@ func BinaryFromDsKey(k ds.Key) ([]byte, error) {
 }
 
 func CidToDsKey(k *cid.Cid) ds.Key {
-	return NewKeyFromBinary(k.KeyString())
+	return NewKeyFromBinary(k.Bytes())
 }
 
 func DsKeyToCid(dsKey ds.Key) (*cid.Cid, error) {
 	kb, err := BinaryFromDsKey(dsKey)
-	if err != nil {
-		return nil, err
-	}
-	return cid.Cast(kb)
-}
-
-func DsKeyStringToCid(dsKey string) (*cid.Cid, error) {
-	kb, err := base32.RawStdEncoding.DecodeString(dsKey[1:])
 	if err != nil {
 		return nil, err
 	}

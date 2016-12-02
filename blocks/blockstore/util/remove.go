@@ -6,8 +6,8 @@ import (
 
 	bs "github.com/ipfs/go-ipfs/blocks/blockstore"
 	"github.com/ipfs/go-ipfs/pin"
-	ds "gx/ipfs/QmbzuUusHqaLLoNTDEVLcSF6vZDHZDLPC7p4bztRvvkXxU/go-datastore"
-	cid "gx/ipfs/QmcEcrBAMrwMyhSjXt4yfyPpzgSuV8HLHavnfmiKCSRqZU/go-cid"
+	ds "gx/ipfs/QmRWDav6mzWseLWeYfVd5fvUKiVe9xNH29YfMF438fG364/go-datastore"
+	cid "gx/ipfs/QmcTcsTvfaeEBRFo1TkFgT8sRmgi1n1LTZpecfVP8fzpGD/go-cid"
 )
 
 // RemovedBlock is used to respresent the result of removing a block.
@@ -27,7 +27,10 @@ type RmBlocksOpts struct {
 	Force  bool
 }
 
-func RmBlocks(blocks bs.GCBlockstore, pins pin.Pinner, out chan<- interface{}, cids []*cid.Cid, opts RmBlocksOpts) error {
+func RmBlocks(blocks bs.GCBlockstore, pins pin.Pinner, cids []*cid.Cid, opts RmBlocksOpts) (<-chan interface{}, error) {
+	// make the channel large enough to hold any result to avoid
+	// blocking while holding the GCLock	
+	out := make(chan interface{}, len(cids))
 	go func() {
 		defer close(out)
 
@@ -47,7 +50,7 @@ func RmBlocks(blocks bs.GCBlockstore, pins pin.Pinner, out chan<- interface{}, c
 			}
 		}
 	}()
-	return nil
+	return out, nil
 }
 
 func FilterPinned(pins pin.Pinner, out chan<- interface{}, cids []*cid.Cid) []*cid.Cid {

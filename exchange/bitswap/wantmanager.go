@@ -9,7 +9,7 @@ import (
 	bsmsg "github.com/ipfs/go-ipfs/exchange/bitswap/message"
 	bsnet "github.com/ipfs/go-ipfs/exchange/bitswap/network"
 	wantlist "github.com/ipfs/go-ipfs/exchange/bitswap/wantlist"
-	cid "gx/ipfs/QmcEcrBAMrwMyhSjXt4yfyPpzgSuV8HLHavnfmiKCSRqZU/go-cid"
+	cid "gx/ipfs/QmcTcsTvfaeEBRFo1TkFgT8sRmgi1n1LTZpecfVP8fzpGD/go-cid"
 	peer "gx/ipfs/QmfMmLGoKzCHDN7cGgk64PJr4iipzidDRME8HABSJqvmhC/go-libp2p-peer"
 )
 
@@ -217,7 +217,7 @@ func (mq *msgQueue) doWork(ctx context.Context) {
 
 		err = mq.openSender(ctx)
 		if err != nil {
-			log.Error("couldnt open sender again after SendMsg(%s) failed: %s", mq.p, err)
+			log.Errorf("couldnt open sender again after SendMsg(%s) failed: %s", mq.p, err)
 			// TODO(why): what do we do now?
 			// I think the *right* answer is to probably put the message we're
 			// trying to send back, and then return to waiting for new work or
