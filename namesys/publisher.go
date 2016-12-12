@@ -107,6 +107,10 @@ func (p *ipnsPublisher) RePublish(ctx context.Context, pk ci.PrivKey, eol time.T
 	return PutRecordToRouting(ctx, pk, path, seq, eol, p.routing, id)
 }
 
+func (ns *ipnsPublisher) Upload(ctx context.Context, pk ci.PubKey, record []byte) error {
+	return errors.New("not implemented")
+}
+
 func (p *ipnsPublisher) tryLocalThenRemote(ctx context.Context, dhtKey string) ([]byte, error) {
 	dhtValue, err := p.getLocal(ctx, dhtKey)
 	if err == ds.ErrNotFound {

@@ -11,7 +11,6 @@ import (
 	core "github.com/ipfs/go-ipfs/core"
 	path "github.com/ipfs/go-ipfs/path"
 	multibase "github.com/multiformats/go-multibase"
-
 	peer "gx/ipfs/QmfMmLGoKzCHDN7cGgk64PJr4iipzidDRME8HABSJqvmhC/go-libp2p-peer"
 	crypto "gx/ipfs/QmfWDLQjGjVe4fr5CoztYW2DYYjRysMJrFe1RCsXLPTf46/go-libp2p-crypto"
 )
@@ -37,6 +36,12 @@ var UploadNameCmd = &cmds.Command{
 
 	Run: func(req cmds.Request, res cmds.Response) {
 		log.Debug("begin name upload")
+		n, err := getNodeWithNamesys(req, res)
+		if err != nil {
+			res.SetError(err, cmds.ErrNormal)
+			return
+		}
+
 		if len(req.Arguments()) != 1 {
 			res.SetError(errors.New("Must provide the IPNS record as the single argument"), cmds.ErrNormal)
 			return
@@ -48,8 +53,8 @@ var UploadNameCmd = &cmds.Command{
 			return
 		}
 
-		//ctx := req.Context()
-		pubkey, found, err := req.Option("key").String()
+		ctx := req.Context()
+		pubkeyString, found, err := req.Option("key").String()
 		if err != nil {
 			res.SetError(err, cmds.ErrNormal)
 			return
@@ -59,7 +64,22 @@ var UploadNameCmd = &cmds.Command{
 			return
 		}
 
-		res.SetOutput(&UploadResult{Record: record, PubKey: pubkey})
+		_, pubkeyBytes, err := multibase.Decode(pubkeyString)
+		if err != nil {
+			res.SetError(err, cmds.ErrNormal)
+			return
+		}
+
+		pubkey, err := crypto.UnmarshalPublicKey(pubkeyBytes)
+		crypto.MarshalPublicKey(pubkey)
+		if err != nil {
+			res.SetError(err, cmds.ErrNormal)
+			return
+		}
+
+		n.Namesys.Upload(ctx, pubkey, record)
+
+		res.SetOutput(&UploadResult{Record: record, PubKey: pubkeyString})
 	},
 	Marshalers: cmds.MarshalerMap{
 		cmds.Text: func(res cmds.Response) (io.Reader, error) {
@@ -112,32 +132,13 @@ Publish an <ipfs-path> to your identity name:
 	},
 	Run: func(req cmds.Request, res cmds.Response) {
 		log.Debug("begin publish")
-		n, err := req.InvocContext().GetNode()
+		n, err := getNodeWithNamesys(req, res)
 		if err != nil {
 			res.SetError(err, cmds.ErrNormal)
 			return
 		}
 
-		if !n.OnlineMode() {
-			err := n.SetupOfflineRouting()
-			if err != nil {
-				res.SetError(err, cmds.ErrNormal)
-				return
-			}
-		}
-
-		if n.Mounts.Ipns != nil && n.Mounts.Ipns.IsActive() {
-			res.SetError(errors.New("You cannot manually publish while IPNS is mounted."), cmds.ErrNormal)
-			return
-		}
-
 		pstr := req.Arguments()[0]
-
-		if n.Identity == "" {
-			res.SetError(errors.New("Identity not loaded!"), cmds.ErrNormal)
-			return
-		}
-
 		popts := new(publishOpts)
 
 		popts.verifyExists, _, _ = req.Option("resolve").Bool()
@@ -184,6 +185,35 @@ Publish an <ipfs-path> to your identity name:
 		},
 	},
 	Type: IpnsEntry{},
+}
+
+func getNodeWithNamesys(req cmds.Request, res cmds.Response) (n *core.IpfsNode, err error) {
+	n, err = req.InvocContext().GetNode()
+	if err != nil {
+		res.SetError(err, cmds.ErrNormal)
+		return
+	}
+
+	if !n.OnlineMode() {
+		err = n.SetupOfflineRouting()
+		if err != nil {
+			res.SetError(err, cmds.ErrNormal)
+			return
+		}
+	}
+
+	if n.Mounts.Ipns != nil && n.Mounts.Ipns.IsActive() {
+		err = errors.New("You cannot manually publish while IPNS is mounted.")
+		res.SetError(err, cmds.ErrNormal)
+		return
+	}
+
+	if n.Identity == "" {
+		err = errors.New("Identity not loaded!")
+		res.SetError(err, cmds.ErrNormal)
+	}
+
+	return
 }
 
 type publishOpts struct {

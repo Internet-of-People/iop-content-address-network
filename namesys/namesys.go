@@ -97,3 +97,7 @@ func (ns *mpns) PublishWithEOL(ctx context.Context, name ci.PrivKey, val path.Pa
 func (ns *mpns) RePublish(ctx context.Context, name ci.PrivKey, eol time.Time) error {
 	return ns.publishers["/ipns/"].RePublish(ctx, name, eol)
 }
+
+func (ns *mpns) Upload(ctx context.Context, pk ci.PubKey, record []byte) error {
+	return ns.publishers["/ipns/"].Upload(ctx, pk, record)
+}

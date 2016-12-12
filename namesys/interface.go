@@ -115,4 +115,5 @@ type Publisher interface {
 type RePublisher interface {
 	Publisher
 	RePublish(ctx context.Context, sk ci.PrivKey, eol time.Time) error
+	Upload(ctx context.Context, pk ci.PubKey, record []byte) error
 }
