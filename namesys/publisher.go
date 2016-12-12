@@ -67,7 +67,12 @@ func (p *ipnsPublisher) PublishWithEOL(ctx context.Context, pk ci.PrivKey, path 
 	}
 
 	// get previous records sequence number
-	_, seq, err := p.getLastVal(ctx, id, p.tryLocalThenRemote)
+	rec, err := p.tryLocalThenRemote(ctx, IpnsKeyForID(id))
+	if err != nil {
+		return err
+	}
+
+	_, seq, err := p.parseIpnsRecord(rec)
 	if err != nil {
 		return err
 	}
@@ -84,20 +89,23 @@ func (p *ipnsPublisher) RePublish(ctx context.Context, pk ci.PrivKey, eol time.T
 		return err
 	}
 
-	path, seq, err := p.getLastVal(ctx, id, p.getLocal)
+	record, err := p.getLocal(ctx, IpnsKeyForID(id))
+	if err == ds.ErrNotFound {
+		// not found means we don't have a previously published entry
+		return nil
+	}
 	if err != nil {
-		if err == ds.ErrNotFound {
-			// not found means we don't have a previously published entry
-			return nil
-		}
+		return err
+	}
+
+	path, seq, err := p.parseIpnsRecord(record)
+	if err != nil {
 		return err
 	}
 
 	// update record with same sequence number
 	return PutRecordToRouting(ctx, pk, path, seq, eol, p.routing, id)
 }
-
-type getDhtValue func(ctx context.Context, dhtKey string) (rec []byte, err error)
 
 func (p *ipnsPublisher) tryLocalThenRemote(ctx context.Context, dhtKey string) ([]byte, error) {
 	dhtValue, err := p.getLocal(ctx, dhtKey)
@@ -137,29 +145,19 @@ func (p *ipnsPublisher) getLocal(ctx context.Context, dhtKey string) ([]byte, er
 	return dhtRec.GetValue(), nil
 }
 
-func (p *ipnsPublisher) getIpns(ctx context.Context, id peer.ID, get getDhtValue) (*pb.IpnsEntry, error) {
-	dhtKey := IpnsKeyForID(id)
-	dhtValue, err := get(ctx, dhtKey)
-	if dhtValue == nil {
-		return nil, err
+func (p *ipnsPublisher) parseIpnsRecord(record []byte) (path.Path, uint64, error) {
+	if record == nil {
+		return "", 0, nil
 	}
 
 	// extract published data from record
 	ipnsEntry := new(pb.IpnsEntry)
-	err = proto.Unmarshal(dhtValue, ipnsEntry)
+	err := proto.Unmarshal(record, ipnsEntry)
 	if err != nil {
-		return nil, err
-	}
-	return ipnsEntry, nil
-}
-
-func (p *ipnsPublisher) getLastVal(ctx context.Context, id peer.ID, get getDhtValue) (path.Path, uint64, error) {
-	entry, err := p.getIpns(ctx, id, get)
-	if entry == nil {
 		return "", 0, err
 	}
 
-	return path.Path(entry.Value), entry.GetSequence(), nil
+	return path.Path(ipnsEntry.Value), ipnsEntry.GetSequence(), nil
 }
 
 // setting the TTL on published records is an experimental feature.
