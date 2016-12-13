@@ -32,10 +32,12 @@ package namesys
 import (
 	"errors"
 	"time"
+	"context"
 
-	context "context"
-	path "github.com/ipfs/go-ipfs/path"
+	"github.com/ipfs/go-ipfs/path"
+
 	ci "gx/ipfs/QmfWDLQjGjVe4fr5CoztYW2DYYjRysMJrFe1RCsXLPTf46/go-libp2p-crypto"
+	peer "gx/ipfs/QmfMmLGoKzCHDN7cGgk64PJr4iipzidDRME8HABSJqvmhC/go-libp2p-peer"
 )
 
 const (
@@ -115,5 +117,5 @@ type Publisher interface {
 type RePublisher interface {
 	Publisher
 	RePublish(ctx context.Context, sk ci.PrivKey, eol time.Time) error
-	Upload(ctx context.Context, pk ci.PubKey, record []byte) error
+	Upload(ctx context.Context, pk ci.PubKey, record []byte) (id peer.ID, oldSeq uint64, newSeq uint64, newPath path.Path, err error)
 }

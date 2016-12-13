@@ -1,13 +1,15 @@
 package namesys
 
 import (
+	"context"
 	"strings"
 	"time"
 
-	context "context"
-	path "github.com/ipfs/go-ipfs/path"
+	"github.com/ipfs/go-ipfs/path"
+
 	ds "gx/ipfs/QmRWDav6mzWseLWeYfVd5fvUKiVe9xNH29YfMF438fG364/go-datastore"
 	routing "gx/ipfs/QmbkGVaN9W6RYJK4Ws5FvMKXKDqdRQ5snhtaa92qP6L8eU/go-libp2p-routing"
+	peer "gx/ipfs/QmfMmLGoKzCHDN7cGgk64PJr4iipzidDRME8HABSJqvmhC/go-libp2p-peer"
 	ci "gx/ipfs/QmfWDLQjGjVe4fr5CoztYW2DYYjRysMJrFe1RCsXLPTf46/go-libp2p-crypto"
 )
 
@@ -98,6 +100,6 @@ func (ns *mpns) RePublish(ctx context.Context, name ci.PrivKey, eol time.Time) e
 	return ns.publishers["/ipns/"].RePublish(ctx, name, eol)
 }
 
-func (ns *mpns) Upload(ctx context.Context, pk ci.PubKey, record []byte) error {
+func (ns *mpns) Upload(ctx context.Context, pk ci.PubKey, record []byte) (peer.ID, uint64, uint64, path.Path, error) {
 	return ns.publishers["/ipns/"].Upload(ctx, pk, record)
 }

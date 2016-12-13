@@ -7,9 +7,11 @@ import (
 	"io"
 	"strings"
 	"time"
+
 	cmds "github.com/ipfs/go-ipfs/commands"
 	core "github.com/ipfs/go-ipfs/core"
 	path "github.com/ipfs/go-ipfs/path"
+
 	multibase "github.com/multiformats/go-multibase"
 	peer "gx/ipfs/QmfMmLGoKzCHDN7cGgk64PJr4iipzidDRME8HABSJqvmhC/go-libp2p-peer"
 	crypto "gx/ipfs/QmfWDLQjGjVe4fr5CoztYW2DYYjRysMJrFe1RCsXLPTf46/go-libp2p-crypto"
@@ -18,8 +20,10 @@ import (
 var errNotOnline = errors.New("This command must be run in online mode. Try running 'ipfs daemon' first.")
 
 type UploadResult struct {
-	Record []byte
-	PubKey string
+	Peer    string
+	OldSeq  uint64
+	NewSeq  uint64
+	NewPath path.Path
 }
 
 var UploadNameCmd = &cmds.Command{
@@ -77,19 +81,17 @@ var UploadNameCmd = &cmds.Command{
 			return
 		}
 
-		n.Namesys.Upload(ctx, pubkey, record)
-
-		res.SetOutput(&UploadResult{Record: record, PubKey: pubkeyString})
+		id, oldSeq, newSeq, newPath, err := n.Namesys.Upload(ctx, pubkey, record)
+		res.SetOutput(&UploadResult{Peer: id.Pretty(), OldSeq: oldSeq, NewSeq: newSeq, NewPath: newPath})
+		if err != nil {
+			res.SetError(err, cmds.ErrNormal)
+			return
+		}
 	},
 	Marshalers: cmds.MarshalerMap{
 		cmds.Text: func(res cmds.Response) (io.Reader, error) {
 			o := res.Output().(*UploadResult)
-			rec, err := multibase.Encode(multibase.Base64urlPad, o.Record)
-			if err != nil {
-				return nil, err
-			}
-
-			return strings.NewReader(rec), nil
+			return strings.NewReader(fmt.Sprintf("/ipns/%s was set to %s (old seq=%d, new seq=%d)\n", o.Peer, o.NewPath, o.OldSeq, o.NewSeq)), nil
 		},
 	},
 	Type: UploadResult{},

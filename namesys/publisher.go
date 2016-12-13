@@ -107,8 +107,51 @@ func (p *ipnsPublisher) RePublish(ctx context.Context, pk ci.PrivKey, eol time.T
 	return PutRecordToRouting(ctx, pk, path, seq, eol, p.routing, id)
 }
 
-func (ns *ipnsPublisher) Upload(ctx context.Context, pk ci.PubKey, record []byte) error {
-	return errors.New("not implemented")
+func (p *ipnsPublisher) Upload(ctx context.Context, pk ci.PubKey, record []byte) (id peer.ID, oldSeq uint64, newSeq uint64, newPath path.Path, err error) {
+	id, err = peer.IDFromPublicKey(pk)
+	if err != nil {
+		return
+	}
+
+	// get previous records sequence number
+	oldRec, err := p.tryLocalThenRemote(ctx, IpnsKeyForID(id))
+	if err != nil {
+		return
+	}
+
+	_, oldSeq, err = p.parseIpnsRecord(oldRec)
+	if err != nil {
+		return
+	}
+
+	entry := new(pb.IpnsEntry)
+	err = proto.Unmarshal(record, entry)
+	if err != nil {
+		return
+	}
+
+	if ok, err1 := pk.Verify(ipnsEntryDataForSig(entry), entry.GetSignature()); err1 != nil || !ok {
+		err = fmt.Errorf("The IPNS record is not signed by %s", id.Pretty())
+		return
+	}
+	if entry.Sequence == nil {
+		err = errors.New("The IPNS record must have a sequence number, but none were provided")
+		return
+	}
+
+	newSeq = *entry.Sequence
+	if newSeq <= oldSeq {
+		err = fmt.Errorf("There is already a newer IPNS record with sequence number: %d", oldSeq)
+		return
+	}
+
+	newPath, err = path.ParsePath(string(entry.Value))
+	if err != nil {
+		return
+	}
+
+	err = publishEntry(ctx, p.routing, pk, entry)
+	return
 }
 
 func (p *ipnsPublisher) tryLocalThenRemote(ctx context.Context, dhtKey string) ([]byte, error) {
@@ -186,6 +229,21 @@ func PutRecordToRouting(ctx context.Context, sk ci.PrivKey, value path.Path, seq
 	pk := sk.GetPublic()
 
 	return publishEntry(ctx, r, pk, entry)
+}
+
+func CreateEntry(sk ci.PrivKey, value path.Path, seqnum uint64, eol time.Time, ttl time.Duration) ([]byte, error) {
+	ctx := context.WithValue(context.Background(), "ipns-publish-ttl", ttl)
+	entry, err := createEntry(ctx, sk, value, seqnum, eol)
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := proto.Marshal(entry)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
 func createEntry(ctx context.Context, sk ci.PrivKey, value path.Path, seqnum uint64, eol time.Time) (*pb.IpnsEntry, error) {
