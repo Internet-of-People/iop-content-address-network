@@ -299,6 +299,11 @@
       "hash": "QmU1N5xVAUXgo3XRTt6GhJ2SuJEbxj2zRgMS7FpjSR2U83",
       "name": "semver",
       "version": "3.3.0"
+    },
+    {
+      "hash": "QmTs99S2MufLh1qv8ZRx7M4dYMZe9SjybpvwJRw4it6MF5",
+      "name": "go-multibase",
+      "version": "0.3.0"
     }
   ],
   "gxVersion": "0.4.0",
