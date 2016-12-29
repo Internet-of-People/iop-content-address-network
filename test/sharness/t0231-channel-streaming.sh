@@ -11,7 +11,7 @@ test_description="Test output of streaming json commands"
 test_init_ipfs
 
 get_api_port() {
-	cat "$IPFS_PATH/api" | awk -F/ '{ print $5 }'
+	cat "$IOPCAN_PATH/api" | awk -F/ '{ print $5 }'
 }
 
 test_ls_cmd() {

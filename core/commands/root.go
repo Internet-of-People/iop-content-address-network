@@ -64,9 +64,9 @@ TOOL COMMANDS
 Use 'ipfs <command> --help' to learn more about each command.
 
 ipfs uses a repository in the local file system. By default, the repo is located
-at ~/.ipfs. To change the repo location, set the $IPFS_PATH environment variable:
+at ~/.iopcan. To change the repo location, set the $IOPCAN_PATH environment variable:
 
-  export IPFS_PATH=/path/to/ipfsrepo
+  export IOPCAN_PATH=/path/to/iopcanrepo
 
 EXIT STATUS
 
@@ -82,7 +82,7 @@ The CLI will exit with one of the following values:
 		cmds.BoolOption("help", "Show the full command help text.").Default(false),
 		cmds.BoolOption("h", "Show a short version of the command help text.").Default(false),
 		cmds.BoolOption("local", "L", "Run the command locally, instead of using the daemon.").Default(false),
-		cmds.StringOption(ApiOption, "Use a specific API instance (defaults to /ip4/127.0.0.1/tcp/5001)"),
+		cmds.StringOption(ApiOption, "Use a specific API instance (defaults to /ip4/127.0.0.1/tcp/15001)"),
 	},
 }
 

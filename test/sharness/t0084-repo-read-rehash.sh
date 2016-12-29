@@ -22,7 +22,7 @@ BS_BLOCK2="CIQNY/CIQNYWBOKHY7TCY7FUOBXKVJ66YRMARDT3KC7PPY6UWWPZR4YA67CKQ.data"
 
 test_expect_success 'blocks are swapped' '
 	ipfs cat $H_BLOCK2 > noswap &&
-	cp -f "$IPFS_PATH/blocks/$BS_BLOCK1" "$IPFS_PATH/blocks/$BS_BLOCK2" &&
+	cp -f "$IOPCAN_PATH/blocks/$BS_BLOCK1" "$IOPCAN_PATH/blocks/$BS_BLOCK2" &&
 	ipfs cat $H_BLOCK2 > swap &&
 	test_must_fail test_cmp noswap swap
 '

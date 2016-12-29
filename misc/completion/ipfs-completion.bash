@@ -917,7 +917,7 @@ _ipfs_multiaddr_complete()
             COMPREPLY=( $(compgen -W "${opts}" -- ${word}) )
         elif [[ ${word} == /*/*/*/ ]] ; then
             word=${word##*/}
-            opts="4001/ "
+            opts="14001/ "
             COMPREPLY=( $(compgen -W "${opts}" -- ${word}) )
         elif [[ ${word} == /*/*/ ]] ; then
             word=${word##*/}

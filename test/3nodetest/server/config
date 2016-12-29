@@ -1,6 +1,6 @@
 {
     "Addresses": {
-        "API": "/ip4/127.0.0.1/tcp/5001",
+        "API": "/ip4/127.0.0.1/tcp/15001",
         "Swarm": [
             "/ip4/0.0.0.0/tcp/4021"
         ]
@@ -8,7 +8,7 @@
     "Bootstrap": [
     ],
     "Datastore": {
-        "Path": "/root/.ipfs/datastore",
+        "Path": "/root/.iopcan/datastore",
         "Type": "leveldb"
     },
     "Identity": {

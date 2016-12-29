@@ -80,7 +80,7 @@ Make sure to restart the daemon after changing addresses.
 By default, the gateway is only accessible locally. To expose it to
 other computers in the network, use 0.0.0.0 as the ip address:
 
-   ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
+   ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/18080
 
 Be careful if you expose the API. It is a security risk, as anyone could
 control your node remotely. If you need to control the node remotely,
@@ -115,13 +115,13 @@ or send a SIGTERM signal to it (e.g. with 'kill'). It may take a while for the
 daemon to shutdown gracefully, but it can be killed forcibly by sending a
 second signal.
 
-IPFS_PATH environment variable
+IOPCAN_PATH environment variable
 
 ipfs uses a repository in the local file system. By default, the repo is
-located at ~/.ipfs. To change the repo location, set the $IPFS_PATH
+located at ~/.iopcan. To change the repo location, set the $IOPCAN_PATH
 environment variable:
 
-    export IPFS_PATH=/path/to/ipfsrepo
+    export IOPCAN_PATH=/path/to/iopcanrepo
 
 Routing
 

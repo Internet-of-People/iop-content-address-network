@@ -44,8 +44,8 @@ func makeHandler(n *core.IpfsNode, l net.Listener, options ...ServeOption) (http
 // the given serve options. The address must be provided in multiaddr format.
 //
 // TODO intelligently parse address strings in other formats so long as they
-// unambiguously map to a valid multiaddr. e.g. for convenience, ":8080" should
-// map to "/ip4/0.0.0.0/tcp/8080".
+// unambiguously map to a valid multiaddr. e.g. for convenience, ":18080" should
+// map to "/ip4/0.0.0.0/tcp/18080".
 func ListenAndServe(n *core.IpfsNode, listeningMultiAddr string, options ...ServeOption) error {
 	addr, err := ma.NewMultiaddr(listeningMultiAddr)
 	if err != nil {

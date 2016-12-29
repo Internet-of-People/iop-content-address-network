@@ -13,8 +13,8 @@
     </array>
     <key>EnvironmentVariables</key>
     <dict>
-      <key>IPFS_PATH</key>
-      <string>{{IPFS_PATH}}</string>
+      <key>IOPCAN_PATH</key>
+      <string>{{IOPCAN_PATH}}</string>
     </dict>
     <key>RunAtLoad</key>
     <true/>

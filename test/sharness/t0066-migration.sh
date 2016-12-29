@@ -19,7 +19,7 @@ test_expect_success "setup mock migrations" '
 '
 
 test_expect_success "manually reset repo version to 3" '
-	echo "3" > "$IPFS_PATH"/version
+	echo "3" > "$IOPCAN_PATH"/version
 '
 
 test_expect_success "ipfs daemon --migrate=false fails" '

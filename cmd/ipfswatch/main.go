@@ -20,7 +20,7 @@ import (
 )
 
 var http = flag.Bool("http", false, "expose IPFS HTTP API")
-var repoPath = flag.String("repo", os.Getenv("IPFS_PATH"), "IPFS_PATH to use")
+var repoPath = flag.String("repo", os.Getenv("IOPCAN_PATH"), "IOPCAN_PATH to use")
 var watchPath = flag.String("path", ".", "the path to watch")
 
 func main() {
@@ -28,7 +28,7 @@ func main() {
 
 	// precedence
 	// 1. --repo flag
-	// 2. IPFS_PATH environment variable
+	// 2. IOPCAN_PATH environment variable
 	// 3. default repo path
 	var ipfsPath string
 	if *repoPath != "" {
@@ -82,7 +82,7 @@ func run(ipfsPath, watchPath string) error {
 	defer node.Close()
 
 	if *http {
-		addr := "/ip4/127.0.0.1/tcp/5001"
+		addr := "/ip4/127.0.0.1/tcp/15001"
 		var opts = []corehttp.ServeOption{
 			corehttp.GatewayOption(true, "/ipfs", "/ipns"),
 			corehttp.WebUIOption,

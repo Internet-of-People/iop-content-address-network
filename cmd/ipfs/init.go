@@ -28,10 +28,10 @@ var initCmd = &cmds.Command{
 Initializes ipfs configuration files and generates a new keypair.
 
 ipfs uses a repository in the local file system. By default, the repo is
-located at ~/.ipfs. To change the repo location, set the $IPFS_PATH
+located at ~/.iopcan. To change the repo location, set the $IOPCAN_PATH
 environment variable:
 
-    export IPFS_PATH=/path/to/ipfsrepo
+    export IOPCAN_PATH=/path/to/ipcanrepo
 `,
 	},
 	Arguments: []cmds.Argument{

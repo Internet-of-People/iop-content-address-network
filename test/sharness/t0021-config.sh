@@ -73,7 +73,7 @@ test_config_cmd() {
   '
 
   test_expect_success "setup for config replace test" '
-    cp "$IPFS_PATH/config" newconfig.json &&
+    cp "$IOPCAN_PATH/config" newconfig.json &&
 	sed -i"~" -e /PrivKey/d -e s/10GB/11GB/ newconfig.json &&
 	sed -i"~" -e '"'"'/PeerID/ {'"'"' -e '"'"' s/,$// '"'"' -e '"'"' } '"'"' newconfig.json
   '
@@ -83,7 +83,7 @@ test_config_cmd() {
   '
 
   test_expect_success "check resulting config after 'ipfs config replace'" '
-	sed -e /PrivKey/d "$IPFS_PATH/config" > replconfig.json &&
+	sed -e /PrivKey/d "$IOPCAN_PATH/config" > replconfig.json &&
 	sed -i"~" -e '"'"'/PeerID/ {'"'"' -e '"'"' s/,$// '"'"' -e '"'"' } '"'"' replconfig.json &&
 	test_cmp replconfig.json newconfig.json
   '
@@ -109,7 +109,7 @@ test_config_cmd() {
   '
 
   test_expect_success "lower cased PrivKey" '
-       sed -i"~" -e '\''s/PrivKey/privkey/'\'' "$IPFS_PATH/config" &&
+       sed -i"~" -e '\''s/PrivKey/privkey/'\'' "$IOPCAN_PATH/config" &&
        test_expect_code 1 ipfs config Identity.privkey 2> ident_out
   '
 
@@ -118,7 +118,7 @@ test_config_cmd() {
   '
 
   test_expect_success "fix it back" '
-       sed -i"~" -e '\''s/privkey/PrivKey/'\'' "$IPFS_PATH/config"
+       sed -i"~" -e '\''s/privkey/PrivKey/'\'' "$IOPCAN_PATH/config"
   '
 
   test_expect_success "'ipfs config show' doesn't include privkey" '
@@ -128,11 +128,11 @@ test_config_cmd() {
 
   test_expect_success "'ipfs config replace' injects privkey back" '
        ipfs config replace show_config &&
-       grep "\"PrivKey\":" "$IPFS_PATH/config" | grep -e ": \".\+\"" >/dev/null
+       grep "\"PrivKey\":" "$IOPCAN_PATH/config" | grep -e ": \".\+\"" >/dev/null
   '
 
   test_expect_success "'ipfs config replace' with privkey errors out" '
-       cp "$IPFS_PATH/config" real_config &&
+       cp "$IOPCAN_PATH/config" real_config &&
        test_expect_code 1 ipfs config replace - < real_config 2> replace_out
   '
 
@@ -142,7 +142,7 @@ test_config_cmd() {
   '
 
   test_expect_success "'ipfs config replace' with lower case privkey errors out" '
-       cp "$IPFS_PATH/config" real_config &&
+       cp "$IOPCAN_PATH/config" real_config &&
        sed -i -e '\''s/PrivKey/privkey/'\'' real_config &&
        test_expect_code 1 ipfs config replace - < real_config 2> replace_out
   '

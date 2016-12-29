@@ -189,9 +189,9 @@ SUBCOMMANDS
   Use 'ipfs <command> --help' to learn more about each command.
 
   ipfs uses a repository in the local file system. By default, the repo is located
-  at ~/.ipfs. To change the repo location, set the $IPFS_PATH environment variable:
+  at ~/.ipfs. To change the repo location, set the $IOPCAN_PATH environment variable:
 
-    export IPFS_PATH=/path/to/ipfsrepo
+    export IOPCAN_PATH=/path/to/iopcanrepo
 ```
 
 ## Getting Started
@@ -230,9 +230,9 @@ Make sure docker can access these folders:
     sudo chmod -R 777 /absolute/path/to/somewhere/
     sudo chmod -R 777 /absolute/path/to/somewhere_else/
 
-Start a container running ipfs and expose ports 4001, 5001 and 8080:
+Start a container running ipfs and expose ports 14001, 15001 and 18080:
 
-    docker run -d --name ipfs_host -v $ipfs_staging:/export -v $ipfs_data:/data/ipfs -p 8080:8080 -p 4001:4001 -p 5001:5001 ipfs/go-ipfs:latest
+    docker run -d --name ipfs_host -v $ipfs_staging:/export -v $ipfs_data:/data/ipfs -p 18080:18080 -p 14001:14001 -p 15001:15001 ipfs/go-ipfs:latest
 
 Watch the ipfs log:
 
@@ -241,7 +241,7 @@ Watch the ipfs log:
 Wait for ipfs to start. ipfs is running when you see:
 
     Gateway (readonly) server
-    listening on /ip4/0.0.0.0/tcp/8080
+    listening on /ip4/0.0.0.0/tcp/18080
 
 You can now stop watching the log.
 
@@ -265,7 +265,7 @@ Stop the running container:
 ### Troubleshooting
 If you have previously installed IPFS before and you are running into
 problems getting a newer version to work, try deleting (or backing up somewhere
-else) your IPFS config directory (~/.ipfs by default) and rerunning `ipfs init`.
+else) your IPFS config directory (~/.iopcan by default) and rerunning `ipfs init`.
 This will reinitialize the config file to its defaults and clear out the local
 datastore of any bad entries.
 

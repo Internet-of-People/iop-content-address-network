@@ -2,7 +2,7 @@ FROM zaqwsx_ipfs-test-img
 
 RUN ipfs init -b=1024
 ADD . /tmp/test
-RUN mv -f /tmp/test/config /root/.ipfs/config
+RUN mv -f /tmp/test/config /root/.iopcan/config
 RUN ipfs id
 RUN chmod +x /tmp/test/run.sh
 

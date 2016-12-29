@@ -201,9 +201,9 @@
     },
     {
       "author": "whyrusleeping",
-      "hash": "QmbzCT1CwxVZ2ednptC9RavuJe7Bv8DDi2Ne89qUrA37XM",
+      "hash": "QmNXuwK3FaZjRWf5atSERyMWruuDaj3VNEmLxiKk8Q7MmC",
       "name": "go-libp2p",
-      "version": "4.3.0"
+      "version": "4.3.1+iop"
     },
     {
       "author": "whyrusleeping",
@@ -248,9 +248,9 @@
       "version": "0.1.2"
     },
     {
-      "hash": "QmNQPjpcXrwwwgDErKzKUm2xxhXCB3cuFgTHsrcCJ5uGbu",
+      "hash": "QmbSV3euxW9gT7diwLnei7Xu6x9wEbjBUmH66diuWuePex",
       "name": "go-libp2p-kad-dht",
-      "version": "2.4.8"
+      "version": "2.4.10+iop"
     },
     {
       "author": "whyrusleeping",
@@ -260,9 +260,9 @@
     },
     {
       "author": "whyrusleeping",
-      "hash": "QmV5jot2GfVXmgvetHExJCa2hprebf3AKjprZtuwaXSr1v",
+      "hash": "QmUuGV4h6dt2n5bsVJtHexDvKKyNQSQDZcCNoaWJo5mN23",
       "name": "floodsub",
-      "version": "0.8.2"
+      "version": "0.8.3+iop"
     },
     {
       "author": "whyrusleeping",
@@ -305,6 +305,6 @@
   "language": "go",
   "license": "MIT",
   "name": "go-ipfs",
-  "version": "0.4.5-dev"
+  "version": "0.4.5-dev+iop"
 }
 

@@ -34,9 +34,9 @@ test_launch_ipfs_daemon --enable-gc
 test_gc() {
     test_expect_success "adding data below watermark doesn't trigger auto gc" '
         ipfs add 600k1 >/dev/null &&
-        disk_usage "$IPFS_PATH/blocks" >expected &&
+        disk_usage "$IOPCAN_PATH/blocks" >expected &&
         go-sleep 40ms &&
-        disk_usage "$IPFS_PATH/blocks" >actual &&
+        disk_usage "$IOPCAN_PATH/blocks" >actual &&
         test_cmp expected actual
     '
 
@@ -44,7 +44,7 @@ test_gc() {
         HASH=`ipfs add -q 600k2` &&
         ipfs pin rm -r $HASH &&
         go-sleep 40ms &&
-        DU=$(disk_usage "$IPFS_PATH/blocks") &&
+        DU=$(disk_usage "$IOPCAN_PATH/blocks") &&
         if test $(uname -s) = "Darwin"; then
             test "$DU" -lt 1400  # 60% of 2MB
         else

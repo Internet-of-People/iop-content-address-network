@@ -5,15 +5,10 @@
 #
 
 # changing the bootstrap peers will require changing it in two places :)
-BP1="/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+BP1="/ip4/104.199.219.45/tcp/14001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
 BP2="/ip4/104.236.151.122/tcp/4001/ipfs/QmSoLju6m7xTh3DuokvT3886QRYqxAzb1kShaanJgW36yx"
 BP3="/ip4/104.236.176.52/tcp/4001/ipfs/QmSoLnSGccFuZQJzRadHn95W2CrSFmZuTdDWP8HXaHca9z"
 BP4="/ip4/104.236.179.241/tcp/4001/ipfs/QmSoLPppuBtQSGwKDZT2M73ULpjvfd3aZ6ha4oFGL1KrGM"
-BP5="/ip4/104.236.76.40/tcp/4001/ipfs/QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64"
-BP6="/ip4/128.199.219.111/tcp/4001/ipfs/QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu"
-BP7="/ip4/162.243.248.213/tcp/4001/ipfs/QmSoLueR4xBeUbY9WZ9xGUUxunbKWcrNFTDAadQJmocnWm"
-BP8="/ip4/178.62.158.247/tcp/4001/ipfs/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd"
-BP9="/ip4/178.62.61.185/tcp/4001/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3"
 
 test_description="Test ipfs repo operations"
 
@@ -89,15 +84,10 @@ test_bootstrap_cmd() {
     echo $BP2 >>add2_expected &&
     echo $BP3 >>add2_expected &&
     echo $BP4 >>add2_expected &&
-    echo $BP5 >>add2_expected &&
-    echo $BP6 >>add2_expected &&
-    echo $BP7 >>add2_expected &&
-    echo $BP8 >>add2_expected &&
-    echo $BP9 >>add2_expected &&
     test_cmp add2_expected add2_actual
   '
 
-  test_bootstrap_list_cmd $BP1 $BP2 $BP3 $BP4 $BP5 $BP6 $BP7 $BP8 $BP9
+  test_bootstrap_list_cmd $BP1 $BP2 $BP3 $BP4
 
   test_expect_success "'ipfs bootstrap rm --all' succeeds" '
     ipfs bootstrap rm --all >rm2_actual
@@ -108,11 +98,6 @@ test_bootstrap_cmd() {
     echo $BP2 >>rm2_expected &&
     echo $BP3 >>rm2_expected &&
     echo $BP4 >>rm2_expected &&
-    echo $BP5 >>rm2_expected &&
-    echo $BP6 >>rm2_expected &&
-    echo $BP7 >>rm2_expected &&
-    echo $BP8 >>rm2_expected &&
-    echo $BP9 >>rm2_expected &&
     test_cmp rm2_expected rm2_actual
   '
 

@@ -12,7 +12,7 @@ test_description="Test daemon command"
 test_init_ipfs
 test_launch_ipfs_daemon
 
-# this errors if we didn't --init $IPFS_PATH correctly
+# this errors if we didn't --init $IOPCAN_PATH correctly
 test_expect_success "'ipfs config Identity.PeerID' works" '
   PEERID=$(ipfs config Identity.PeerID)
 '
@@ -45,12 +45,12 @@ test_expect_success "ipfs daemon output looks good" '
   test_cmp expected_daemon actual_daemon
 '
 
-test_expect_success ".ipfs/ has been created" '
-  test -d ".ipfs" &&
-  test -f ".ipfs/config" &&
-  test -d ".ipfs/datastore" &&
-  test -d ".ipfs/blocks" ||
-  test_fsh ls -al .ipfs
+test_expect_success ".iopcan/ has been created" '
+  test -d ".iopcan" &&
+  test -f ".iopcan/config" &&
+  test -d ".iopcan/datastore" &&
+  test -d ".iopcan/blocks" ||
+  test_fsh ls -al .iopcan
 '
 
 # begin same as in t0010
@@ -111,7 +111,7 @@ test_expect_success "'ipfs daemon' can be killed" '
 test_expect_success "'ipfs daemon' should be able to run with a pipe attached to stdin (issue #861)" '
 	yes | ipfs daemon >stdin_daemon_out 2>stdin_daemon_err &
 	DAEMON_PID=$!
-	test_wait_for_file 20 100ms "$IPFS_PATH/api" &&
+	test_wait_for_file 20 100ms "$IOPCAN_PATH/api" &&
 	test_set_address_vars stdin_daemon_out
 '
 

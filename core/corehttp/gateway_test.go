@@ -19,7 +19,7 @@ import (
 	config "github.com/ipfs/go-ipfs/repo/config"
 	testutil "github.com/ipfs/go-ipfs/thirdparty/testutil"
 
-	id "gx/ipfs/QmbzCT1CwxVZ2ednptC9RavuJe7Bv8DDi2Ne89qUrA37XM/go-libp2p/p2p/protocol/identify"
+	id "gx/ipfs/QmRdg3fxuZ8WL4WCswDc6VyMmVa7jUkZhDfASQBFzKSNZn/go-libp2p/p2p/protocol/identify"
 	ci "gx/ipfs/QmfWDLQjGjVe4fr5CoztYW2DYYjRysMJrFe1RCsXLPTf46/go-libp2p-crypto"
 )
 
@@ -133,11 +133,11 @@ func TestGatewayGet(t *testing.T) {
 		status int
 		text   string
 	}{
-		{"localhost:5001", "/", http.StatusNotFound, "404 page not found\n"},
-		{"localhost:5001", "/" + k, http.StatusNotFound, "404 page not found\n"},
-		{"localhost:5001", "/ipfs/" + k, http.StatusOK, "fnord"},
-		{"localhost:5001", "/ipns/nxdomain.example.com", http.StatusInternalServerError, "Path Resolve error: " + namesys.ErrResolveFailed.Error()},
-		{"localhost:5001", "/ipns/example.com", http.StatusOK, "fnord"},
+		{"localhost:15001", "/", http.StatusNotFound, "404 page not found\n"},
+		{"localhost:15001", "/" + k, http.StatusNotFound, "404 page not found\n"},
+		{"localhost:15001", "/ipfs/" + k, http.StatusOK, "fnord"},
+		{"localhost:15001", "/ipns/nxdomain.example.com", http.StatusInternalServerError, "Path Resolve error: " + namesys.ErrResolveFailed.Error()},
+		{"localhost:15001", "/ipns/example.com", http.StatusOK, "fnord"},
 		{"example.com", "/", http.StatusOK, "fnord"},
 	} {
 		var c http.Client

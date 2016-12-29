@@ -14,10 +14,10 @@ below.
 
 ### Bash on Linux
 For bash, completion can be enabled in a couple of ways. One is to copy the 
-completion script to the directory `~/.ipfs/` and then in the file 
+completion script to the directory `~/.iopcan/` and then in the file 
 `~/.bash_completion` add
 ```bash
-source ~/.ipfs/ipfs-completion.bash
+source ~/.iopcan/ipfs-completion.bash
 ```
 It will automatically be loaded the next time bash is loaded.
 To enable ipfs command completion globally on your system you may also 

@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	host     = flag.String("host", "/ip4/127.0.0.1/tcp/5001", "the multiaddr host to dial on")
+	host     = flag.String("host", "/ip4/127.0.0.1/tcp/15001", "the multiaddr host to dial on")
 	endpoint = flag.String("ep", "/version", "which http endpoint path to hit")
 	tries    = flag.Int("tries", 10, "how many tries to make before failing")
 	timeout  = flag.Duration("tout", time.Second, "how long to wait between attempts")

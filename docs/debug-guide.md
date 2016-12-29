@@ -15,11 +15,11 @@ being weird), the first thing you want to do is gather all the relevant
 profiling information.
 
 - goroutine dump
-  - `curl localhost:5001/debug/pprof/goroutine\?debug=2 > ipfs.stacks`
+  - `curl localhost:15001/debug/pprof/goroutine\?debug=2 > ipfs.stacks`
 - 30 second cpu profile
-  - `curl localhost:5001/debug/pprof/profile > ipfs.cpuprof`
+  - `curl localhost:15001/debug/pprof/profile > ipfs.cpuprof`
 - heap trace dump
-  - `curl localhost:5001/debug/pprof/heap > ipfs.heap`
+  - `curl localhost:15001/debug/pprof/heap > ipfs.heap`
 - system information
   - `ipfs diag sys > ipfs.sysinfo`
 

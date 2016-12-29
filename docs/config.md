@@ -26,12 +26,12 @@ Contains information about various listener addresses to be used by this node.
 - `API`
 Multiaddr describing the address to serve the local HTTP API on.
 
-Default: `/ip4/127.0.0.1/tcp/4001`
+Default: `/ip4/127.0.0.1/tcp/14001`
 
 - `Gateway`
 Multiaddr describing the address to serve the local gateway on.
 
-Default: `/ip4/127.0.0.1/tcp/8080`
+Default: `/ip4/127.0.0.1/tcp/18080`
 
 - `Swarm`
 Array of multiaddrs describing which addresses to listen on for p2p swarm connections.
@@ -39,8 +39,8 @@ Array of multiaddrs describing which addresses to listen on for p2p swarm connec
 Default:
 ```json
 [
-  "/ip4/0.0.0.0/tcp/4001",
-  "/ip6/::/tcp/4001"
+  "/ip4/0.0.0.0/tcp/14001",
+  "/ip6/::/tcp/14001"
 ]
 ```
 
@@ -75,7 +75,7 @@ Denotes overall datastore type. The only currently valid option is `leveldb`.
 Default: `leveldb`
 
 - `Path`
-Path to the leveldb datastore directory. Set during init to either `$IPFS_PATH/datastore`, or `$HOME/.ipfs/datastore` if `$IPFS_PATH` is unset.
+Path to the leveldb datastore directory. Set during init to either `$IOPCAN_PATH/datastore`, or `$HOME/.iopcan/datastore` if `$IOPCAN_PATH` is unset.
 
 - `StorageMax`
 An upper limit on the total size of the ipfs repository's datastore. Writes to the datastore will begin to fail once this limit is reached.

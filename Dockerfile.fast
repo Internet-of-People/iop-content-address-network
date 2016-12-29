@@ -7,13 +7,13 @@ MAINTAINER Lars Gierth <lgierth@ipfs.io>
 # Please keep these two Dockerfiles in sync.
 
 
-EXPOSE 4001
-EXPOSE 4002/udp
-EXPOSE 5001
-EXPOSE 8080
+EXPOSE 14001
+EXPOSE 14002/udp
+EXPOSE 15001
+EXPOSE 18080
 
 ENV GX_IPFS   ""
-ENV IPFS_PATH /data/ipfs
+ENV IOPCAN_PATH /data/ipfs
 ENV IPFS_LOGGING ""
 ENV GOPATH     /go
 ENV PATH       /go/bin:$PATH
@@ -29,12 +29,12 @@ ENV SRC_PATH   /go/src/github.com/ipfs/go-ipfs
 COPY ./package.json $SRC_PATH/package.json
 
 RUN apk add --update musl-dev gcc go git bash wget ca-certificates \
-	&& mkdir -p $IPFS_PATH \
-	&& adduser -D -h $IPFS_PATH -u 1000 ipfs \
-	&& chown ipfs:ipfs $IPFS_PATH && chmod 755 $IPFS_PATH \
+	&& mkdir -p $IOPCAN_PATH \
+	&& adduser -D -h $IOPCAN_PATH -u 1000 ipfs \
+	&& chown ipfs:ipfs $IOPCAN_PATH && chmod 755 $IOPCAN_PATH \
 	&& go get -u github.com/whyrusleeping/gx \
 	&& go get -u github.com/whyrusleeping/gx-go \
-	&& ([ -z "$GX_IPFS" ] || echo $GX_IPFS > $IPFS_PATH/api) \
+	&& ([ -z "$GX_IPFS" ] || echo $GX_IPFS > $IOPCAN_PATH/api) \
 	&& cd $SRC_PATH \
 	&& gx --verbose install --global
 
@@ -48,8 +48,8 @@ RUN cd $SRC_PATH \
 	&& cp ipfs /usr/local/bin/ipfs \
 	&& cp $SRC_PATH/bin/container_daemon /usr/local/bin/start_ipfs \
 	&& chmod 755 /usr/local/bin/start_ipfs \
-	&& apk del --purge musl-dev gcc go git && rm -rf $GOPATH && rm -vf $IPFS_PATH/api
+	&& apk del --purge musl-dev gcc go git && rm -rf $GOPATH && rm -vf $IOPCAN_PATH/api
 
 USER ipfs
-VOLUME $IPFS_PATH
+VOLUME $IOPCAN_PATH
 ENTRYPOINT ["/usr/local/bin/start_ipfs"]

@@ -75,7 +75,7 @@ test_client_suite "(daemon off, no --api, no /api file)" false false "$api_unrea
 test_launch_ipfs_daemon
 
 test_expect_success "'ipfs daemon' creates api file" '
-	test -f ".ipfs/api"
+	test -f ".iopcan/api"
 '
 
 test_client_suite "(daemon on, no --api, /api file from cfg)" true false "$API_MADDR" "$api_other"

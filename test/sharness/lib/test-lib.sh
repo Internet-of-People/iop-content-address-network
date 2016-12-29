@@ -137,7 +137,7 @@ test_init_ipfs() {
 	# todo: in the future, use env?
 
 	test_expect_success "ipfs init succeeds" '
-		export IPFS_PATH="$(pwd)/.ipfs" &&
+		export IOPCAN_PATH="$(pwd)/.iopcan" &&
 		ipfs init -b=1024 > /dev/null
 	'
 
@@ -151,7 +151,7 @@ test_init_ipfs() {
   \"/ip4/0.0.0.0/tcp/0\"
 ]" &&
 		ipfs bootstrap rm --all ||
-		test_fsh cat "\"$IPFS_PATH/config\""
+		test_fsh cat "\"$IOPCAN_PATH/config\""
 	'
 
 }
@@ -159,7 +159,7 @@ test_init_ipfs() {
 test_config_ipfs_gateway_writable() {
 	test_expect_success "prepare config -- gateway writable" '
 		test_config_set --bool Gateway.Writable true ||
-		test_fsh cat "\"$IPFS_PATH/config\""
+		test_fsh cat "\"$IOPCAN_PATH/config\""
 	'
 }
 
@@ -185,7 +185,7 @@ test_set_address_vars() {
 	daemon_output="$1"
 
 	test_expect_success "set up address variables" '
-		API_MADDR=$(cat "$IPFS_PATH/api") &&
+		API_MADDR=$(cat "$IOPCAN_PATH/api") &&
 		API_ADDR=$(convert_tcp_maddr $API_MADDR) &&
 		API_PORT=$(port_from_maddr $API_MADDR) &&
 
@@ -215,7 +215,7 @@ test_launch_ipfs_daemon() {
 
 	# wait for api file to show up
 	test_expect_success "api file shows up" '
-		test_wait_for_file 20 100ms "$IPFS_PATH/api"
+		test_wait_for_file 20 100ms "$IOPCAN_PATH/api"
 	'
 
 	test_set_address_vars actual_daemon

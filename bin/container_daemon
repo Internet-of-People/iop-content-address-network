@@ -1,7 +1,7 @@
 #!/bin/sh
 
 user=$(whoami)
-repo="$IPFS_PATH"
+repo="$IOPCAN_PATH"
 
 # Test whether the mounted directory is writable for us
 if [ ! -w "$repo" 2>/dev/null ]; then
@@ -15,8 +15,8 @@ if [ -e "$repo/config" ]; then
   echo "Found IPFS fs-repo at $repo"
 else
   ipfs init
-  ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001
-  ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
+  ipfs config Addresses.API /ip4/0.0.0.0/tcp/15001
+  ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/18080
 fi
 
 exec ipfs daemon "$@"

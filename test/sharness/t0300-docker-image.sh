@@ -51,12 +51,12 @@ test_expect_success "docker image runs" '
 
 test_expect_success "docker image gateway is up" '
 	docker_exec "$DOC_ID" "wget --retry-connrefused --waitretry=1 --timeout=30 -t 30 \
-		-q -O - http://localhost:8080/version >/dev/null"
+		-q -O - http://localhost:18080/version >/dev/null"
 '
 
 test_expect_success "docker image API is up" '
 	docker_exec "$DOC_ID" "wget --retry-connrefused --waitretry=1 --timeout=30 -t 30 \
-		-q -O - http://localhost:5001/api/v0/version >/dev/null"
+		-q -O - http://localhost:15001/api/v0/version >/dev/null"
 '
 
 test_expect_success "simple ipfs add/cat can be run in docker container" '
@@ -68,7 +68,7 @@ test_expect_success "simple ipfs add/cat can be run in docker container" '
 
 read testcode <<EOF
 	docker exec -i "$DOC_ID" wget --retry-connrefused --waitretry=1 --timeout=30 -t 30 \
-		-q -O - http://localhost:8080/version | grep Commit | cut -d" " -f2 >actual ; \
+		-q -O - http://localhost:18080/version | grep Commit | cut -d" " -f2 >actual ; \
 	test -s actual ; \
 	docker exec -i "$DOC_ID" ipfs version --enc json \
 		| sed 's/^.*"Commit":"\\\([^"]*\\\)".*$/\\\1/g' >expected ; \

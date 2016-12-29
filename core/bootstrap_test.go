@@ -34,13 +34,13 @@ func TestMultipleAddrsPerPeer(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		addr := fmt.Sprintf("/ip4/127.0.0.1/tcp/5001/ipfs/%s", pid.Pretty())
+		addr := fmt.Sprintf("/ip4/127.0.0.1/tcp/15001/ipfs/%s", pid.Pretty())
 		bsp1, err := config.ParseBootstrapPeer(addr)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		addr = fmt.Sprintf("/ip4/127.0.0.1/udp/5002/utp/ipfs/%s", pid.Pretty())
+		addr = fmt.Sprintf("/ip4/127.0.0.1/udp/15002/utp/ipfs/%s", pid.Pretty())
 		bsp2, err := config.ParseBootstrapPeer(addr)
 		if err != nil {
 			t.Fatal(err)
