@@ -2,20 +2,20 @@ package integrationtest
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"io"
 	"math"
 	"testing"
 	"time"
 
-	context "context"
-
 	core "github.com/ipfs/go-ipfs/core"
 	coreunix "github.com/ipfs/go-ipfs/core/coreunix"
 	mock "github.com/ipfs/go-ipfs/core/mock"
 	testutil "github.com/ipfs/go-ipfs/thirdparty/testutil"
 	"github.com/ipfs/go-ipfs/thirdparty/unit"
-	mocknet "gx/ipfs/QmRdg3fxuZ8WL4WCswDc6VyMmVa7jUkZhDfASQBFzKSNZn/go-libp2p/p2p/net/mock"
+
+	mocknet "gx/ipfs/QmdzDdLZ7nj133QvNHypyS9Y39g35bMFk5DJ2pmX7YqtKU/go-libp2p/p2p/net/mock"
 	pstore "gx/ipfs/QmeXj9VAjmYQZxpmVz7VzccbJrpmr8qkCDSjfVNsPTWTYU/go-libp2p-peerstore"
 )
 
