@@ -7,7 +7,7 @@
 In order to keep this neat and tidy, we have written our documentation at:
 [IoP CAN NET DOCs](https://github.com/Fermat-ORG/iop-content-address-network-documentation).
 
-Follows original content:
+Original content follows:
 
 # go-ipfs
 
