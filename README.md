@@ -1,3 +1,14 @@
+![alt text](https://raw.githubusercontent.com/Fermat-ORG/media-kit/00135845a9d1fbe3696c98454834efbd7b4329fb/MediaKit/Logotype/fermat_logo_3D/Fermat_logo_v2_readme_1024x466.png "Fermat Logo")
+
+# IoP CAN NET
+
+> Content addressed network for the Internet of People based on the IPFS network
+
+In order to keep this neat and tidy, we have written our documentation at:
+[IoP CAN NET DOCs](https://github.com/Fermat-ORG/iop-content-address-network-documentation).
+
+Follows original content:
+
 # go-ipfs
 
 ![banner](https://ipfs.io/ipfs/QmVk7srrwahXLNmcDYvyUEJptyoxpndnRa57YJ11L4jV26/ipfs.go.png)
