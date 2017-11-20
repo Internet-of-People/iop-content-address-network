@@ -1,11 +1,11 @@
-![alt text](https://raw.githubusercontent.com/Fermat-ORG/media-kit/00135845a9d1fbe3696c98454834efbd7b4329fb/MediaKit/Logotype/fermat_logo_3D/Fermat_logo_v2_readme_1024x466.png "Fermat Logo")
+<img width=200px src="https://github.com/Internet-of-People/iop-resources/blob/master/logo/v2/logo_iop.png" alt="IoP Logo">
 
 # IoP CAN NET
 
 > Content addressed network for the Internet of People based on the IPFS network
 
 In order to keep this neat and tidy, we have written our documentation at:
-[IoP CAN NET DOCs](https://github.com/Fermat-ORG/iop-content-address-network-documentation).
+[IoP CAN NET DOCs](https://github.com/wigy_opensource_developer/iop-content-address-network-documentation).
 
 Original content follows:
 
@@ -200,7 +200,7 @@ SUBCOMMANDS
   Use 'ipfs <command> --help' to learn more about each command.
 
   ipfs uses a repository in the local file system. By default, the repo is located
-  at ~/.ipfs. To change the repo location, set the $IOPCAN_PATH environment variable:
+  at ~/.iopcan. To change the repo location, set the $IOPCAN_PATH environment variable:
 
     export IOPCAN_PATH=/path/to/iopcanrepo
 ```

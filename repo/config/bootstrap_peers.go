@@ -14,10 +14,9 @@ import (
 // NOTE: This is here -- and not inside cmd/ipfs/init.go -- because of an
 // import dependency issue. TODO: move this into a config/default/ package.
 var DefaultBootstrapAddresses = []string{
-	"/ip4/104.199.219.45/tcp/14001/ipfs/QmfJGzktqwZK8S7LT55Q2nxDWCHRHzEgHgmVTyyrjqHpF5",  // ham4.fermat.cloud
-	"/ip4/104.196.57.34/tcp/14001/ipfs/QmWXUcfL47AXgyThRmDBKDte8zaTTXtdUJvU38FLqPj4eF",   // ham5.fermat.cloud
-	"/ip4/104.199.118.223/tcp/14001/ipfs/QmaM1ZXoWKXh7vc88HV51fwmsgMxjgmt6GLWMcm1CTU1zv", // ham6.fermat.cloud
-	"/ip4/104.196.161.16/tcp/14001/ipfs/QmSgkC7sPsBfqWcTPgfFKjtk1zJsHBnh4iF5Ck9Yv4CJ2Z",  // ham7.fermat.cloud
+	"/ip4/35.198.78.34/tcp/14001/ipfs/QmVGkE3HKHpxiH4ujwf8AZ6WhS6jZqjCAHm7vrTZeT2gsP",  // can1.iop-project.com
+	"/ip4/35.196.84.26/tcp/14001/ipfs/QmcxG2XdPKyG6xgpog8s8dD4BsDaPGDyyHK86PzQQnXMZE",  // can2.iop-project.com
+	"/ip4/35.187.246.56/tcp/14001/ipfs/QmY62Zm6c7SAMa1izzHUzGFbXt2QpdD4bvqouXJ8EtPnaV", // can3.iop-project.com
 }
 
 // BootstrapPeer is a peer used to bootstrap the network.
